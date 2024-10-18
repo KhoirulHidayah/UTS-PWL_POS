@@ -15,13 +15,29 @@
             @if (session('error'))
                 <div class="alert alert-danger">{{session('error')}}</div>
             @endif
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-1 control-label col-form-label">Filter</label>
+                        <div class="col-3">
+                            <select class="form-control" id="filter_level" name="filter_level" required>
+                                <option value="">- Semua -</option>
+                                @foreach ($level as $level)
+                                    <option value="{{ $level->level_id }}">{{ $level->level_nama }}</option>
+                                @endforeach
+                            </select>
+                            <small class="form-text text-muted">Filter Level</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table class="table table-bordered table-striped table-hover table-sm" id="table_level">
                 <thead>
                     <tr>
-                        <th >ID</th>
+                        <th>ID</th>
                         <th>Kode</th>
-                        <th >Nama</th>
-                        <th >Aksi</th>
+                        <th>Nama</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
             </table>
@@ -34,18 +50,6 @@
 @endpush
 @push('js')
     <script>
-        // $(document).ready(function() {
-        //     var dataUser = $('#table_user').DataTable({
-        //         // serverSide: true, jika ingin menggunakan server side processing
-        //         serverSide: true,
-        //         ajax: {
-        //             "url": "{{ url('level/list') }}",
-        //             "dataType": "json",
-        //             "type": "POST",
-        //             "data": function (d){
-        //                 d.level_id = $('#level_id').val();
-        //             }
-        //         },
         function modalAction(url = '') {
             $('#myModal').load(url, function() {
                 $('#myModal').modal('show');
@@ -53,17 +57,18 @@
         }
 
         var dataLevel;
-		$(document).ready(function() {
-			 dataLevel = $('#table_level').DataTable({
-				// serverSide: true, jika ingin menggunakan server side processing
-				serverSide: true,
-				ajax: {
-					"url": "{{ url('level/list') }}",
-					"dataType": "json",
-					"type": "POST"
-				},
+        $(document).ready(function() {
+            dataLevel = $('#table_level').DataTable({
+                serverSide: true,
+                ajax: {
+                    "url": "{{ url('level/list') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": function (d){
+                        d.filter_level = $('#filter_level').val(); // Tambahkan filter
+                    }
+                },
                 columns: [{
-                    // nomor urut dari laravel datatable addIndexColumn()
                     data: "DT_RowIndex",
                     className: "text-center",
                     orderable: false,
@@ -85,9 +90,10 @@
                     searchable: false
                 }]
             });
-            $('#level_id').on('change',function(){
+
+            $('#filter_level').on('change', function() {
                 dataLevel.ajax.reload();
-            })
+            });
         });
     </script>
 @endpush
