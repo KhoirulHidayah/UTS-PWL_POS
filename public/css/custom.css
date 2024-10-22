@@ -1,0 +1,84 @@
+
+/* Reset default margin dan padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Reset untuk elemen dasar */
+html, body {
+    height: 100%; /* Memastikan body mengisi tinggi viewport */
+}
+
+/* Gaya untuk body */
+body {
+    font-family: 'Source Sans Pro', sans-serif; /* Menggunakan font Source Sans Pro */
+    background-color: #e2ebfa; /* Warna latar belakang yang cerah */
+    color: #343a40; /* Warna teks default */
+    line-height: 1.6; /* Meningkatkan jarak antar baris */
+}
+
+/* Gaya untuk header */
+header {
+    background-color: #007bff; /* Warna latar belakang header */
+    color: #fff; /* Warna teks di header */
+    padding: 20px 0; /* Padding atas dan bawah */
+    text-align: center; /* Teks rata tengah */
+}
+
+/* Gaya untuk tombol */
+.button {
+    background-color: #28a745; /* Warna latar belakang tombol */
+    color: #fff; /* Warna teks tombol */
+    padding: 10px 15px; /* Padding dalam tombol */
+    border: none; /* Menghilangkan border */
+    border-radius: 5px; /* Mengatur sudut tombol */
+    cursor: pointer; /* Mengubah kursor saat hover */
+    transition: background-color 0.3s; /* Efek transisi */
+}
+
+.button:hover {
+    background-color: #218838; /* Warna latar belakang tombol saat hover */
+}
+
+/* Gaya untuk tabel */
+table {
+    width: 100%; /* Lebar tabel 100% */
+    border-collapse: collapse; /* Menghilangkan spasi antara border */
+    margin: 20px 0; /* Margin atas dan bawah tabel */
+}
+
+th, td {
+    border: 1px solid #d7dadd; /* Border untuk sel tabel */
+    padding: 12px; /* Padding dalam sel */
+    text-align: left; /* Teks rata kiri */
+}
+
+th {
+    background-color: #007bff; /* Warna latar belakang header tabel */
+    color: rgb(206, 199, 199); /* Warna teks header tabel */
+}
+
+/* Gaya untuk link */
+a {
+    color: #007bff; /* Warna link */
+    text-decoration: none; /* Menghilangkan garis bawah */
+}
+
+a:hover {
+    text-decoration: underline; /* Menambahkan garis bawah saat hover */
+}
+
+/* Gaya untuk footer */
+footer {
+    background-color:linear-gradient(to bottom, #1e3c72, #2a69ac); /* Warna latar belakang footer */
+    color: white; /* Warna teks footer */
+    text-align: center; /* Teks rata tengah */
+    padding: 15px 0; /* Padding atas dan bawah */
+    position: relative; /* Posisi relative untuk footer */
+    bottom: 0; /* Mengatur footer di bagian bawah */
+    width: 100%; /* Lebar footer 100% */
+    max-width: 1200px; /* Atur lebar maksimum footer agar tidak lebih panjang dari konten */
+    margin: 0 auto; /* Memusatkan footer di tengah halaman */
+}

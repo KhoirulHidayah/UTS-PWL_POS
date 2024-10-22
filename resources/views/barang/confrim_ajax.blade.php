@@ -3,8 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
@@ -22,9 +21,8 @@
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data Lavel</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning">
@@ -33,12 +31,24 @@
                     </div>
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
-                            <th class="text-right col-3">barang Kode :</th>
+                            <th class="text-right col-3">Barang Kode :</th>
                             <td class="col-9">{{ $barang->barang_kode }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">barang Nama :</th>
+                            <th class="text-right col-3">Barang Nama :</th>
                             <td class="col-9">{{ $barang->barang_nama }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right col-3">Harga Beli :</th>
+                            <td class="col-9">{{ $barang->harga_beli }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right col-3">Harga Jual :</th>
+                            <td class="col-9">{{ $barang->harga_jual }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right col-3">Kategori :</th>
+                            <td class="col-9">{{ $barang->kategori_id }}</td>
                         </tr>
                     </table>
                 </div>
@@ -49,10 +59,10 @@
             </div>
         </div>
     </form>
+
     <script>
         $(document).ready(function() {
             $("#form-delete").validate({
-                rules: {},
                 submitHandler: function(form) {
                     $.ajax({
                         url: form.action,
@@ -66,12 +76,8 @@
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                dataBarang.ajax.reload();
+                                dataBarang.ajax.reload(); // Reload the data table
                             } else {
-                                $('.error-text').text('');
-                                $.each(response.msgField, function(prefix, val) {
-                                    $('#error-' + prefix).text(val[0]);
-                                });
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Terjadi Kesalahan',
@@ -81,17 +87,6 @@
                         }
                     });
                     return false;
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
                 }
             });
         });
