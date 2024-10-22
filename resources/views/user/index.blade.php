@@ -25,7 +25,7 @@
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Filter:</label>
                         <div class="col-3">
-                            <select class="form-control" id="level_id" name="level_id" required>
+                            <select class="form-control" id="level_id" name="level_id">
                                 <option value="">- Semua -</option>
                                 @foreach ($level as $item)
                                     <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
@@ -42,8 +42,7 @@
                         <th>ID</th>
                         <th>Username</th>
                         <th>Nama</th>
-                        <th>Level
-                            Pengguna</th>
+                        <th>Level Pengguna</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -60,58 +59,64 @@
                 $('#myModal').modal('show');
             });
         }
+
         var dataUser;
         $(document).ready(function() {
             dataUser = $('#table_user').DataTable({
-                // serverSide: true, jika ingin menggunakan server side processing
                 serverSide: true,
+                processing: true,
                 ajax: {
-                    "url": "{{ url('user/list') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function(d) {
+                    url: "{{ url('user/list') }}",
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: function(d) {
                         d.level_id = $('#level_id').val();
                     }
                 },
-                columns: [{
-                    data: "level.level_id",
-                    className: "text-center",
-                    width: "5%",
-                    orderable: false,
-                    searchable: false
-                }, {
-                    data: "username",
-                    className: "",
-                    width: "10%",
-                    orderable: true,
-                    searchable: true
-                }, {
-                    data: "nama",
-                    className: "",
-                    width: "37%",
-                    orderable: true,
-                    searchable: true,
-                }, {
-                    data: "level.level_nama",
-                    className: "",
-                    width: "14%",
-                    orderable: true,
-                    searchable: false
-                }, {
-                    data: "aksi",
-                    className: "text-center",
-                    width: "14%",
-                    orderable: false,
-                    searchable: false
-                }]
+                columns: [
+                    {
+                        data: "user_id",
+                        className: "text-center",
+                        width: "5%",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "username",
+                        className: "",
+                        width: "10%",
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: "nama",
+                        className: "",
+                        width: "37%",
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: "level.level_nama",
+                        className: "",
+                        width: "14%",
+                        orderable: true,
+                        searchable: false
+                    },
+                    {
+                        data: "aksi",
+                        className: "text-center",
+                        width: "14%",
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
             });
-            $('#table-user_filter input').unbind().bind().on('keyup', function(e) {
-                if (e.keyCode == 13) { // enter key
-                    tableUser.search(this.value).draw();
-                }
-            });
-            $('.filter_kategori').change(function() {
-                tableUser.draw();
+
+            // Event listener for filter change
+            $('#level_id').change(function() {
+                dataUser.draw(); // Redraw DataTable when filter changes
             });
         });
     </script>

@@ -30,30 +30,26 @@ class BarangController extends Controller
     }
 
         // Ambil data barang dalam bentuk JSON untuk DataTables
-    public function list(Request $request)
+    public function list(Request $request)  
     {
-        $barangs = BarangModel::with('kategori')->select('barang_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual', 'kategori_id');
+    $barangs = BarangModel::with('kategori');
 
-        // Jika kategori_id ada dalam permintaan, filter berdasarkan kategori
-        if ($request->has('kategori_id') && $request->kategori_id != '') {
-            $barangs->where('kategori_id', $request->kategori_id);
-        }
-
-        return DataTables::of($barangs)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($barang) {
-                $btn  = '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id .
-                    '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id .
-                    '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id .
-                    '/delete_ajax') . '\')"  class="btn btn-danger btn-sm">Hapus</button> ';
-                return $btn;
-            })
-
-            ->rawColumns(['aksi'])
-            ->make(true);
+    if (!empty($request->filter_kategori)) {
+        $barangs->where('kategori_id', $request->filter_kategori);
     }
+
+    return DataTables::of($barangs)
+        ->addIndexColumn()
+        ->addColumn('aksi', function ($barang) {
+            $btn  = '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+            $btn .= '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+            $btn .= '<button onclick="modalAction(\'' . url('/barang/' . $barang->barang_id . '/delete_ajax') . '\')"  class="btn btn-danger btn-sm">Hapus</button> ';
+            return $btn;
+        })
+        ->rawColumns(['aksi'])
+        ->make(true);
+}
+
 
     public function create()
     {
