@@ -29,10 +29,10 @@ class LevelController extends Controller
 
     public function list(Request $request)
     {
-        $level = LevelModel::select('level_id', 'level_kode', 'level_nama');
+        $level = LevelModel::query();
 
-        if ($request->level_id) {
-            $level->where('level_id', $request->level_id);
+        if (!empty($request->filter_level)) {
+            $level->where('level_id', $request->filter_level);
         }
         return DataTables::of($level)
             ->addIndexColumn()

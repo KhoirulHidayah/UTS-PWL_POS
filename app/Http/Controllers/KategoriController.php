@@ -31,9 +31,11 @@ class KategoriController extends Controller
     }
 
     public function list(Request $request) {
-        $kategori = KategoriModel::select('kategori_id', 'kategori_kode', 'kategori_nama'); 
-        if ($request->kategori_id) {
-            $kategori->where('kategori_id', $request->kategori_id);
+        $kategori = KategoriModel::query();
+
+        // Jika ada filter, tambahkan ke query
+        if ($request->filter_kategori) {
+            $kategori->where('kategori_id', $request->filter_kategori);
         }
         return DataTables::of($kategori)
             ->addIndexColumn()

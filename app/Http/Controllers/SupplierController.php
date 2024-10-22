@@ -30,9 +30,11 @@ class SupplierController extends Controller
     }
 
     public function list(Request $request) {
-        $supplier = SupplierModel::select('supplier_id', 'supplier_kode', 'supplier_nama', 'supplier_alamat');
-        if ($request->supplier_id) {
-            $supplier->where('supplier_id', $request->supplier_id);
+        $supplier = SupplierModel::query();
+
+        // Cek jika ada filter supplier
+        if (!empty($request->filter_supplier)) {
+            $supplier->where('supplier_id', $request->filter_supplier);
         }
         return DataTables::of($supplier)
             ->addIndexColumn()
